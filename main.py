@@ -4,77 +4,16 @@ import telebot
 from telebot import types
 from random import randint
 
-bot = telebot.TeleBot("1619514050:AAEmmhl52Z4NEnJlY4keTytSOisB9F2uNJg")
+import pass.py
+import data.py
+import funcs.py
+
+bot = telebot.TeleBot(TOKEN)
 
 class Definition:
     def __init__(self, word, definition):
         self.word = word
         self.definition = definition
-
-words = [
-    Definition("венера", "Яка планета є найгарячішою в Сонячній системі?"), 
-    Definition("землетруси", "Яке стихійне лихо вимірюється за шкалою Ріхтера?"), 
-    Definition("меланін", "Як називається речовина, яка надає шкірі та волоссю пігмент?"),
-    Definition("меркурій", "Яка планета найближча до Сонця?"),
-    Definition("галілей", "Хто перший побачив супутники Юпітера (прізвище)?"),
-    Definition("гамофобія", "Страх бути зобов’язаним чи одружитися відомий як що?"),
-    Definition("блондинки", "У кого більше волосяних фолікулів, блондинок чи брюнеток?"),
-    Definition("січень", "У якому місяці Земля найближча до сонця?"),
-    Definition("кератин", "З якої речовини зроблені нігті?"),
-    Definition("дипси", "Хто з Телепузиків був зеленим?"),
-    Definition("синій", "День Святого Патріка спочатку асоціювався з яким кольором?"),
-    Definition("маркс", "Останніми словами соціалістичного письменника були: «Останні слова для дурнів, які недостатньо сказали» (прізвище)?"),
-    Definition("белфаст", "У якому місті був побудований Титанік?"),
-    Definition("християнство", "Яка релігія є найпоширенішою релігією у світі?"),
-    Definition("франція", "Більшість пап були італійцями. Яка країна має 2-е місце за кількістю пап?"),
-    Definition("арес", "Хто був грецьким богом війни?"),
-    Definition("північ", "Що означає «N» в НАТО (українською)?"),
-    Definition("ріанна", "У 2017 році, як звали жінку-виконавцю, яка мала найбільшу кількість потоків на Spotify?"),
-    Definition("серце", "Який орган має чотири камери?"),
-    Definition("шкіра", "Який орган є найбільшим в організмі людини?"),
-    Definition("печінка", "Який найбільший внутрішній орган в організмі людини?"),
-    Definition("вії", "Яке волосся на тілі людини сіріє в останню чергу?"),
-    Definition("печінка", "Який орган виробляє білірубін?"),
-    Definition("термометр", "Який медичний прилад був винайдений Санкторіусом у 1612 році?"),
-    Definition("гемофілія", "Яка хвороба крові також відома як “королівська хвороба”?")
-]
-
-def GetRandomWord():
-    return words[randint(0, 24)]
-
-def GetHashWord(word):
-    code = ""
-    
-    while (len(code) != len(word)):
-        code += "#"
-
-    return code
-
-def hasLetter(letter, word):
-    for i in word:
-        if letter == i:
-            return True
-
-    return False
-
-def hasHash(code):
-    for i in code:
-        if i == "#":
-            return True
-
-    return False
-
-def EditHashWord(letter, code, word):
-    newcode = list(code)
-    
-    i = 0
-    while i < len(word):
-        if letter == word[i]:
-            newcode[i] = letter
-        i += 1
-    
-    str = ''.join(newcode)
-    return str
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
