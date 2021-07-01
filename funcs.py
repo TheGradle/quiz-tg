@@ -1,5 +1,13 @@
+import data
+from random import randint
+
+class Definition:
+    def __init__(self, word, definition):
+        self.word = word
+        self.definition = definition
+
 def GetRandomWord():
-    return words[randint(0, 24)]
+    return data.words[randint(0, len(data.words))]
 
 def GetHashWord(word):
     code = ""

@@ -2,18 +2,13 @@
 from requests.models import codes
 import telebot
 from telebot import types
-from random import randint
+import funcs
+import tgtoken
 
-import pass.py
-import data.py
-import funcs.py
+bot = telebot.TeleBot(tgtoken.TOKEN)
 
-bot = telebot.TeleBot(TOKEN)
-
-class Definition:
-    def __init__(self, word, definition):
-        self.word = word
-        self.definition = definition
+global game_check
+game_check = False
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -28,35 +23,44 @@ def start_game(message):
     if message.chat.type != "group" and message.chat.type != "supergroup":
         bot.send_message(message.chat.id, "❗️Додайте бота до групи, для детальної інформації введіть /help.")
     else:
-        quiz = GetRandomWord()
+        quiz = funcs.GetRandomWord()
         global code
-        code = GetHashWord(quiz.word)
+        code = funcs.GetHashWord(quiz.word)
         global answer
         answer = quiz.word
-        bot.send_message(message.chat.id, "🤔 Почнемо! Якщо ви хочете зупинити гру завчасно напишіть /stop.\nВаше завдання відгадати наступне:\n*" + quiz.definition + "*\n" + code, parse_mode="Markdown")
+        global game_check
+        game_check = True
+        bot.send_message(message.chat.id, "🤔 Почнемо! Якщо ви хочете зупинити гру завчасно напишіть /stop. Нагадую: вводіть літеру або слово починаючи зі знаку \"!\". Будьте ввічливими та грайте по черзі.\n\nВаше завдання відгадати наступне:\n*" + quiz.definition + "*\n" + code, parse_mode="Markdown")
         bot.register_next_step_handler(message, members_step)
 
 @bot.message_handler(commands=['stop'])
 def stop_help(message):
-    global answer
+    global game_check
     
-    bot.send_message(message.chat.id, "Відповідь: " + answer)
-    stop_game(message)
+    if game_check:
+        global answer
+    
+        bot.send_message(message.chat.id, "Відповідь: " + answer)
+        stop_game(message)
+    else:
+        bot.send_message(message.chat.id, "🤨 Хммм...\nА я думав, що не можна закінчити гру, яка не розпочиналась")
 
 def stop_game(message):
     bot.send_message(message.chat.id, "❗️Гру завершено!")
+    global game_check
+    game_check = False
 
 def members_step(message):
     global code
     global answer
 
-    if message.text and message.text[0] == "!":
+    if message.text and message.text[0] == "!" and game_check:
         if message.text[1:] == answer:
             bot.reply_to(message, "🥳 Тааак! Молодці, цьом-цьом ^^")
             stop_game(message)
-        elif hasLetter(message.text[1:], answer) == True:
-            code = EditHashWord(message.text[1:], code, answer)
-            if hasHash(code):
+        elif funcs.hasLetter(message.text[1:], answer) == True:
+            code = funcs.EditHashWord(message.text[1:], code, answer)
+            if funcs.hasHash(code):
                 bot.reply_to(message, "Є таке!\n" + code)
                 bot.register_next_step_handler(message, members_step)
             else:

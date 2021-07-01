@@ -1,3 +1,8 @@
+class Definition:
+    def __init__(self, word, definition):
+        self.word = word
+        self.definition = definition
+
 words = [
     Definition("венера", "Яка планета є найгарячішою в Сонячній системі?"), 
     Definition("землетруси", "Яке стихійне лихо вимірюється за шкалою Ріхтера?"), 
