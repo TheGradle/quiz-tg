@@ -3,8 +3,6 @@ from requests.models import codes
 import telebot
 from telebot import types
 from random import randint
-import os
-PORT = int(os.environ.get('PORT', 5000))
 
 bot = telebot.TeleBot("1619514050:AAEmmhl52Z4NEnJlY4keTytSOisB9F2uNJg")
 
@@ -136,7 +134,4 @@ def members_step(message):
 
 bot.enable_save_next_step_handlers(delay=2)
 bot.load_next_step_handlers()
-updater.start_webhook(listen="0.0.0.0",
-                          port=int(PORT),
-                          url_path=1619514050:AAEmmhl52Z4NEnJlY4keTytSOisB9F2uNJg)
-updater.bot.setWebhook('https://quizo-ua-bot.herokuapp.com/' + 1619514050:AAEmmhl52Z4NEnJlY4keTytSOisB9F2uNJg)
+bot.polling()
