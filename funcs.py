@@ -7,7 +7,7 @@ class Definition:
         self.definition = definition
 
 def GetRandomWord():
-    return data.words[randint(0, len(data.words))]
+    return data.words[randint(0, len(data.words) - 1)]
 
 def GetHashWord(word):
     code = ""
